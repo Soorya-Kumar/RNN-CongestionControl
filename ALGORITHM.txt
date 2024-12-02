@@ -1,0 +1,51 @@
+
+function Predict-Control(Last_50_Thru) returns float:
+
+    input:-  Last_50_Thru throughtput of last 50 time units
+    output:- control-value between -1 and 1
+
+    scaled_Throughput = scaledata(Last_50_Thru)
+    Predicted_20 = predict_using_rnn_model(scaled_Throughput)
+
+    rate_of_chng = difference between consecutive terms in Predicted_20
+    avg_rate_of_chng = mean(rate_of_chng)
+
+    max_rate = max(abs(rate_of_change))
+
+    if all_elements(rate_of_chng) == 0 
+        control_output = 0
+    else 
+        control_output = avg_rate_of_chng / max_rate
+
+return control_output
+
+
+
+function window_chng(Last_50_Thru) returns int:
+
+    input:-  Last_50_Thru throughtput of last 50 time units
+    output:- new window size
+
+    CO = Predict-Control(Last_50_Thru)
+    CO = (CO + 1 ) / 2       #convert to between 0 and 1
+
+
+    if(output < low_threshold) :
+        new_cnwd = self.tcp.window_size * low_chng_value
+    
+    elif(output > high_threshold) :
+        new_cnwd = self.tcp.window_size * med_chng_value
+    
+    else :
+        new_cnwd = self.tcp.window_size * high_chng_value
+    
+    new_window = (int)new_cnwd
+
+return new_window
+
+low_threshold = 0.7 
+high_threshold = 0.9
+
+low_chng_value = 0.5
+med_chng_value = 0.9
+high_chng_value = 1.2

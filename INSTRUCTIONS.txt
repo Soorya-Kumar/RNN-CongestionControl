@@ -1,0 +1,15 @@
+## HOW TO RUN THIS FILE AND OTHER REFERENCES:
+
+Execute the main.py file in the src folder.
+
+It will show some warning. Please wait
+The execution will start automatically.
+
+After the completion of execution the graphs are stored in the plots folder.
+
+The above algorithm uses LSTM model to forecast.
+The implementation of LSTM and GRU can be checked out in the ipynb_for_mlmodel folder.
+
+The initial dataset was downloaded using the MAWI website. The dataset has been removed due to size constraints
+
+The __pycache__ and git folders can be ignored, they are just for improving the execution standard and version control.
